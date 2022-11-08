@@ -1,0 +1,56 @@
+﻿@model KisiselBlog.Models.yashesaplama
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Adı
+            </th>
+            <th>
+                Soyadı
+            </th>
+            <th>
+                meslek
+            </th>
+            <th>
+                hedef
+            </th>
+            <th>
+                Yaşınız :)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @{
+        DateTime bugun, dtarihi = @Model.dogum_tarihi;
+        TimeSpan yas = new TimeSpan();
+        bugun = DateTime.Now;
+        String yasınız;
+        dtarihi = Convert.ToDateTime(@Model.dogum_tarihi);
+        yas = bugun - dtarihi;
+        yasınız =(yas.Days / 365).ToString();
+    }
+    <tbody>
+
+        <tr>
+            <td>
+                @Model.adi
+            </td>
+            <td>
+                @Model.soyadi
+            </td>
+            <td>
+                @Model.meslek
+            </td>
+            <td>
+                @Model.email
+            </td>
+            <td>
+                 @yasınız
+            </td>
+
+        </tr>
+
+    </tbody>
+</table>

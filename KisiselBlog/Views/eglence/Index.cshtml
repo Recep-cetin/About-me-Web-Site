@@ -1,0 +1,84 @@
+﻿@model KisiselBlog.Models.eglenceyorum
+
+<style>
+    .div1 {
+        margin-left: 100px;
+        margin-right: 100px;
+        padding-top: 10px;
+        border-radius: 25px;
+        background-color: #79fcca
+    }
+
+    .div2 {
+        padding-left: 10px;
+        margin-left: 30px;
+        margin-right: 30px;
+        padding-right: 10px;
+        border-radius: 25px;
+        background-color: #0cf0f4
+    }
+</style>
+
+<h1> model binding metotları</h1>
+
+mehdi hocanın istegi uzerine veritabanı harc en az 5 validation kulanıldı
+<br />
+
+burada kulanıcı verileri yas hesaplama viewi uzerinden kaydedp konu başı viewi uzerinden goruntuleyecek
+<h2> <a href="/eglence/yashesapla">kulanıcı ekle</a> </h2>
+mehdi hocanın istegi uzerine ikinci modelbinding
+<br />
+
+burada kulanıcı verileri yas hesaplama viewi uzerinden kaydedp konu başı viewi uzerinden goruntuleyecek
+<br />
+ ornek bunu kulan : ?isim=recep&dgt=2001
+<h2> <a href="/eglence/yasısım">yas ısım  bul</a> </h2>
+
+@{
+    RKisiselBlogContext db = new RKisiselBlogContext();
+    var yorumlar = db.Yorumlars.Where(y => y.Aktif == true && y.Silindi == false);
+
+}
+
+
+<div>
+
+    @if (yorumlar.Count() > 0)
+    {
+       string kuladi = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
+       string kulepotsa = User.FindFirstValue(ClaimTypes.Email).ToString();
+
+        <h5>Yorumlar:</h5>
+        @foreach (var item in yorumlar)
+        {
+
+            <div style="" class="div1">
+                <div style="" class="div2"> <h5 class="display-4">@Html.Raw(item.Yorum)</h5></div>
+                <span> @item.Eklenmetarihi @item.KulaniciId </span>
+
+            </div>
+        }
+    }
+</div>
+@{
+    @using System.Security.Claims;
+    try
+    {   
+        string kulId = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
+        <form asp-controller="eglence" asp-action="YorumYap" method="post">
+            <input type="hidden" id="KulaniciId" name="KulaniciId" value="@kulId">
+            <textarea id="Yorum" name="Yorum"></textarea>
+            <input type="submit" value="YorumYap" class="btn btn-primary" />
+        </form>
+        @if (@TempData["mesaj"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["mesaj"]
+            </div>
+        }
+    }
+    catch
+    {
+        <a href="~/Giriskontrol/GirisYap" class="btn btn-outline-success my-2 my-sm-0" type="GirisYap">Giriş Yap</a>
+    }
+}

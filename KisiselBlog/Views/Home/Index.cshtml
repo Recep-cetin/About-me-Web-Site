@@ -1,0 +1,32 @@
+﻿@model Sayfalar
+@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    .div1 {
+        margin-left: 100px;
+        margin-right: 100px;
+        padding-top: 10px;
+        border-radius: 25px;
+        background-color: #79fcca
+    }
+
+    .div2 {
+        padding-left: 30px;
+        margin-left: 30px;
+        margin-right: 30px;
+        padding-right: 30px;
+        border-radius: 25px;
+        background-color: #0cf0f4
+    }
+</style>
+
+<div class="text-center">
+
+    <div style="" class="div1">
+        <div style="" class="div2"> <h1 class="display-4">@Model.Baslik</h1></div>
+        <span>@Model.Icerik</span>
+
+    </div>
+
+</div>

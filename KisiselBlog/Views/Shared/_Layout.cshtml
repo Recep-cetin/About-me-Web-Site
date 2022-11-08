@@ -1,0 +1,171 @@
+﻿@using System.Security.Claims
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - KisiselBlog</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        button:focus {
+            outline: 0;
+        }
+
+        .navbar .dropdown-menu .form-control {
+            width: 200px;
+        }
+
+        .kaf {
+            border-radius: 25px;
+            border-color: red;
+            background-color: aqua;
+            padding-top: 10px
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h1>Kisisel Blog RÇ</h1></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+
+                        @{
+                            RKisiselBlogContext db = new RKisiselBlogContext();
+                            var ustmenu = db.Menulers.Where(eleman => eleman.UstId == null && eleman.Silindi == false && eleman.Aktif == true).OrderBy(e => e.Sira).ToList();
+                            @foreach (var item in ustmenu)
+                            {
+                                var altmenu = db.Menulers.Where(b => b.UstId == item.MenuId && b.Silindi == false && b.Aktif == true).OrderBy(e => e.Sira).ToList();
+                                if (altmenu.Count == 0)
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" href="@item.Url">@item.Baslik</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                                            @item.Baslik
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown" @item.MenuId>
+                                            @foreach (var item2 in altmenu)
+                                            {
+                                                <a class="dropdown-item" href="@item2.Url">@item2.Baslik</a>
+
+                                            }
+                                        </div>
+                                    </li>
+
+
+                                }
+                            }
+                        }
+                    </ul>
+
+                    <ul class="nav navbar-nav flex-row justify-content-between ml-auto">
+                        @{
+                            try
+                            {
+                                string kuladi = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
+                                string kulepotsa = User.FindFirstValue(ClaimTypes.Email).ToString();
+                                <li>
+                                    <div class="form-group">
+                                        <small>
+
+                                            Hoşgeldiniz : @kulepotsa  <a href="/Giriskontrol/CikisYap" class="btn btn-primary btn-block" onclick="return confirm('Çıkış yapmak istediğinizden eminmisiniz ?')">Çıkış yap</a>
+
+                                        </small>
+                                    </div>
+                                </li>
+                            }
+                            catch
+                            {
+
+                                <li>
+                                    <div class="form-group">
+                                        <small>
+
+                                            <a href="/Giriskontrol/GirisYap" class="btn btn-primary btn-block">Giris yap</a>
+
+                                        </small>
+                                         <small><a href="#">Parolamı unutum ?</a></small>
+                                         <small><h5><a href="/Home/kullaniciekle">Yeni Kulanıcı ?</a></h5></small>
+                                    </div>
+                                </li>
+
+                            }
+
+                        }
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container" style="margin-bottom:850px;">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        @{
+            try
+            { string kulId = User.FindFirstValue(ClaimTypes.NameIdentifier).ToString();
+                <table>
+                    <tr>
+                        <td>
+                            <h3>İletişim kısmı :</h3>
+                        </td>
+                        <td>
+                            <div style="margin-left:450px;">
+
+                                <form asp-controller="Home" asp-action="iletisim" method="post">
+                                    <input type="hidden" id="kulaniciId" name="kulaniciId" value="@kulId">
+                                    <textarea id="adres" name="adres"></textarea>
+                                    <input type="submit" value="iletisim" class="btn btn-primary" action= />
+                                </form>
+                                @if (@TempData["mesaj"] != null)
+                                {
+                                    <div class="alert alert-success">
+                                        @TempData["mesaj"]
+                                    </div>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+
+
+            }
+            catch
+            {
+                <div class="form-group">
+                    <small>
+                        <a href="/Giriskontrol/GirisYap" class="btn btn-primary btn-block">Giris yap</a>
+                    </small>
+                </div>
+            }
+
+
+        }
+
+        <div class="container">
+            &copy; 2022 - KisiselBlog - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

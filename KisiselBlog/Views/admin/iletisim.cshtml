@@ -1,0 +1,47 @@
+﻿@model IEnumerable<KisiselBlog.Models.Iletisim>
+
+@{
+    ViewData["Title"] = "iletisim";
+    Layout = "~/Views/Shared/_yonetimtema.cshtml";
+}
+
+<h1>iletisim</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Adres)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eklenmetarihi)
+            </th>
+       
+            <th>
+                @Html.DisplayNameFor(model => model.Kulanici)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adres)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Eklenmetarihi)
+            </td>
+       
+            <td>
+                @Html.DisplayFor(modelItem => item.KulaniciId)
+            </td>
+            <td>
+              
+                <a asp-action="iletisimsil" asp-route-id="@item.IletisimId" onclick="return confirm('bu iletisim satırını silmek istediğinizden eminmisiiniz')">Sİl</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

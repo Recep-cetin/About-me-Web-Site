@@ -1,0 +1,72 @@
+﻿@model IEnumerable<KisiselBlog.Models.Yorumlar>
+S
+
+@{
+    ViewData["Title"] = "yorumlar";
+    Layout = "~/Views/Shared/_yonetimtema.cshtml";
+}
+
+<h1>yorumlar</h1>
+
+@using (Html.BeginForm())
+{
+    <label for="listelemetipi" class="form-text"> Listeleme Tipi</label>
+    <select id="listelemetipi" name="listelemetipi" class="form-control">
+        <option value="tumu">Tümü</option>
+        <option value="onaylı">Onaylı</option>
+        <option value="onaysız">Onaysız</option>
+    </select>
+    <br/>
+    <input type="submit" value="listele" class="btn btn-primary" />
+
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Yorum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Eklenmetarihi)
+            </th>
+            <th>
+                Onay
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.Silindi)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.Kulanici)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Yorum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Eklenmetarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktif)
+            </td>
+           @* <td>
+                @Html.DisplayFor(modelItem => item.Silindi)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.Kulanici.Adi)&nbsp;@Html.DisplayFor(modelItem => item.Kulanici.Soyadi)
+            </td>
+         
+            <td>
+                <a asp-action="onay" asp-route-id="@item.YorumId" onclick="return confirm('onay durumu degişecek ?')">Onayla/gizle</a> |
+                <a asp-action="onaysil" asp-route-id="@item.YorumId" onclick="return confirm('bu yorum silinecek ?')">Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

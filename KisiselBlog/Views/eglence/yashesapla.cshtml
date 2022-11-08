@@ -1,0 +1,38 @@
+﻿@model KisiselBlog.Models.yashesaplama
+
+<h1>bilgi ekle</h1>
+
+<h4>kisi</h4>
+
+
+<hr />
+ 
+        @using (Html.BeginForm("yashesapla"))
+            {
+        <table>
+            <tr>
+                <td>Adı: </td>
+                <td><input type="text" value="" name="adi" id="adi" /></td>
+            </tr>
+            <tr>
+                <td>Soyadı: </td>
+                <td><input type="text" value="" name="soyadi" id="soyadi" /></td>
+            </tr>
+            <tr>
+                <td>meslek: </td>
+                <td><input type="text" value="" name="meslek" id="meslek" /></td>
+            </tr>
+                        <tr>
+                <td>E posta: </td>
+                <td><input type="text" value="" name="email" id="email" /></td>
+            </tr>
+            <tr>
+                <td>Dohum tarihiniz : </td>
+                <td><input type="datetime" value="" name="dogum_tarihi" id="dogum_tarihi" /></td>
+            </tr>
+            <tr>
+                
+                <td colspan="2"><input type="submit" value="Kaydet" /></td>
+            </tr>
+        </table>
+            }

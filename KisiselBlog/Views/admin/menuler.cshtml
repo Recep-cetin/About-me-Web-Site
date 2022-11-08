@@ -1,0 +1,65 @@
+﻿@model IEnumerable<KisiselBlog.Models.Menuler>
+
+@{
+    ViewData["Title"] = "menuler";
+    Layout = "~/Views/Shared/_yonetimtema.cshtml";
+}
+
+<h1>menuler</h1>
+
+<p>
+    <a asp-action="menuekle">yeni Menu</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Baslik)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Url)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sira)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UstId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Aktif)
+            </th>
+@*            <th>
+                @Html.DisplayNameFor(model => model.Silindi)
+            </th>*@
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Baslik)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Url)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sira)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UstId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Aktif)
+            </td>
+          @*  <td>
+                @Html.DisplayFor(modelItem => item.Silindi)
+            </td>*@
+            <td>
+                <a asp-action="menugetir" asp-route-id="@item.MenuId">Duzenle</a> |
+                <a asp-action="menusil" asp-route-id="@item.MenuId" onclick="return confirm('bu birim silinecek ?')">Sil</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
